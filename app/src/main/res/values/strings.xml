@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">tekmooc</string>
+    <string name="signin">Signin</string>
+    <string name="signup">Signup</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="verify">Verify Email</string>
+    <string name="sign_up_with_google">Sign Up with Google</string>
+    <string name="skill_up_on_programming">Signup or Login to get started with updating your skills in Programming and technology courses</string>
+    <string name="welcome_image">welcome image</string>
+    <string name="sign_in_with_google">Google Sign in</string>
+    <string name="or">or</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="my_courses">My Courses</string>
+    <string name="notifications">Notifications</string>
+    <string name="search">Search Courses</string>
+    <string name="user_name">Username</string>
+    <string name="action_mark_all_read">Mark all read</string>
+    <string name="action_clear_all">Clear notifications</string>
+
+    <string-array name="nav_item_activity_titles">
+        <item>Home</item>
+        <item>Profile</item>
+        <item>Courses</item>
+        <item>Notifications</item>
+        <item>Settings</item>
+    </string-array>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="settings">Settings</string>
+    <string name="_10_07">10:07</string>
+    <string name="author">Author</string>
+    <string name="course_title">Title</string>
+    <string name="cost">Free</string>
+    <string name="openDrawer">Open</string>
+    <string name="closeDrawer">Close</string>
+    <string name="user_image_a">user avatar</string>
+    <string name="user_address">Abuja, Nigeria</string>
+    <string name="_180k">180K</string>
+    <string name="following">Following</string>
+    <string name="_143k">143K</string>
+    <string name="followers">Followers</string>
+    <string name="user_enail">example@gmail.com</string>
+    <string name="phone">Phone</string>
+    <string name="_08012345612">08012345612</string>
+    <string name="linkedin">LinkedIn</string>
+    <string name="https_linkedin_com_user">https://linkedin.com/username</string>
+    <string name="twitter">Twitter</string>
+    <string name="https_twitter_com_danieltrejo">https://twitter.com/username</string>
+</resources>

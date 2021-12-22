@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "423659255042",
+    "project_id": "tekmooc",
+    "storage_bucket": "tekmooc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423659255042:android:d274bcaaa5526f828a3e1b",
+        "android_client_info": {
+          "package_name": "com.example.tekmooc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423659255042-8u1v0s2dg9udvs4b0m0g57uq6j6dkmdb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tekmooc",
+            "certificate_hash": "6c4eb8d91420fd1e04a392ec604f6ae197738676"
+          }
+        },
+        {
+          "client_id": "423659255042-bpkfspqm6a7a4pi2419m5b30dhegm7p5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKoORs4MbY-g2uCSodKWtQVN2P9oCxuWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423659255042-bpkfspqm6a7a4pi2419m5b30dhegm7p5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
