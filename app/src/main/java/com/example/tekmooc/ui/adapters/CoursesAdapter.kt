@@ -6,14 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tekmooc.R
 import com.example.tekmooc.data.models.Result
 import com.squareup.picasso.Picasso
 
-class CoursesAdapter(private val context: Context, private val mCourses: List<Result>)
+class CoursesAdapter(private val context: Context)
     : RecyclerView.Adapter<CoursesAdapter.CourseViewHolder>() {
 
+    var mCourses = mutableListOf<Result>()
     inner class CourseViewHolder(item: View) : RecyclerView.ViewHolder(item){
         val courseTitle = item.findViewById<TextView>(R.id.text_chat_username)
         val courseAuthor = item.findViewById<TextView>(R.id.text_chat_last_message)
@@ -38,4 +40,10 @@ class CoursesAdapter(private val context: Context, private val mCourses: List<Re
     }
 
     override fun getItemCount(): Int = mCourses.size
+
+    fun setCourseList(courses: List<Result>) {
+        this.mCourses = courses.toMutableList()
+        notifyDataSetChanged()
+    }
+    
 }

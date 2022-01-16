@@ -80,7 +80,7 @@ class SignInActivity : AppCompatActivity() {
             val email: String = emailText.text.toString()
             val password: String = passwordText.text.toString()
             if (email.length > 12 && password.length > 8) {
-                SignUpViewModel(application).register(email, password)
+                SignUpViewModel(application).login(email, password)
             } else {
                 Toast.makeText(
                     this,
@@ -109,6 +109,7 @@ class SignInActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)!!
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
+
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)

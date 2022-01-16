@@ -1,5 +1,7 @@
 package com.example.tekmooc.ui
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -12,31 +14,48 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.example.tekmooc.R
 import com.example.tekmooc.databinding.ActivityMainBinding
+import com.example.tekmooc.domain.viewmodels.CourseViewModel
+import com.example.tekmooc.ui.auth.SignInActivity
 import com.example.tekmooc.util.CircleTransform
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.mancj.materialsearchbar.MaterialSearchBar
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MaterialSearchBar.OnSearchActionListener {
 
-    private var navigationView: NavigationView? = null
+    private var navigationView: NavigationView? = null 
     private var drawer: DrawerLayout? = null
     private var navHeader: View? = null
     private var imgNavHeaderBg: ImageView? = null
     private var imgProfile: android.widget.ImageView? = null
     private var txtName: TextView? = null
     private var txtWebsite: TextView? = null
-    private var bottomNav: BottomNavigationView? = null
+    private lateinit var bottomNav: BottomNavigationView
+    private var searchBar: MaterialSearchBar? = null
+    private var lastSearches: MutableList<String>? = null
+    private lateinit var auth: FirebaseAuth
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val urlNavHeaderBg = "https://api.androidhive.info/images/nav-menu-header-bg.jpg"
     private val urlProfileImg =
@@ -52,6 +71,8 @@ class MainActivity : AppCompatActivity() {
     private val TAG_NOTIFICATIONS = "notifications"
     private val TAG_SETTINGS = "settings"
     var CURRENT_TAG = TAG_HOME
+    private var navigController: NavController? = null
+    private var arrayList = ArrayList<String>()
 
     //viewbinding declaration
     private lateinit var binding: ActivityMainBinding
@@ -66,17 +87,21 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         mHandler = Handler()
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        auth = Firebase.auth
         drawer = binding.drawerLayout
         navigationView = binding.navView
-        bottomNav = binding.layout.bottomNavigation
+        bottomNav = binding.bottomNavigation
+        searchBar = binding.searchBar
+        searchBar!!.inflateMenu(R.menu.main_menu)
+        searchBar!!.setOnSearchActionListener(this)
+        searchBar!!.setCardViewElevation(10);
+        lastSearches = java.util.ArrayList<String>()
+        arrayList.add(searchBar!!.lastSuggestions.toString())
 
         navHeader = navigationView!!.getHeaderView(0)
 
@@ -85,41 +110,75 @@ class MainActivity : AppCompatActivity() {
         imgNavHeaderBg = navHeader?.findViewById<View>(R.id.img_header_bg) as ImageView
         imgProfile = navHeader?.findViewById<View>(R.id.img_profile) as ImageView
 
-        // load toolbar titles from string resources
+//        val navController = this.findNavController(R.id.nav_host)
+
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host) as NavHostFragment
+        val navController = navHostFragment.navController
+        bottomNav.setupWithNavController(navController)
+        appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+        NavigationUI.setupWithNavController(navigationView!!, navController)
+        NavigationUI.setupWithNavController(bottomNav, navController)
+
+
 
         // load toolbar titles from string resources
         activityTitles = resources.getStringArray(R.array.nav_item_activity_titles)
 
         loadNavHeader();
 
-        toolbar.setNavigationOnClickListener { drawer!!.open() }
         // initializing navigation menu
         setUpNavigationView()
 
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        navigController = navController
+        searchBar!!.menu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener() {
+                when (it.getItemId()) {
+                    R.id.action_signout -> {
+                        auth.signOut()
+                        this.startActivity(Intent(this, SignInActivity::class.java))
+                        Toast.makeText(applicationContext, "User Signed out!", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    R.id.action_settings -> {
+                        navController.navigate(R.id.settingsFragment)
+                    }
+                }
+
+            return@OnMenuItemClickListener true
+        })
+
+        bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.item1 -> {
+                R.id.page_1 -> {
                     // Respond to navigation item 1 click
-                    findNavController(requireViewById(R.id.homeFragment)).navigate(R.id.action_homeFragment_self)
+                    navController.navigate(R.id.homeFragment)
+                    searchBar!!.visibility = View.VISIBLE
                     true
                 }
-                R.id.item2 -> {
+                R.id.page_2 -> {
                     // Respond to navigation item 2 click
-                    findNavController(requireViewById(R.id.profileFragment)).navigate(R.id.action_homeFragment_to_profileFragment)
+                    navController.navigate(R.id.profileFragment)
+                    searchBar!!.visibility = View.GONE
+                    true
+                }
+                R.id.page_3 -> {
+                    // Respond to navigation item 2 click
+                    navController.navigate(R.id.courseFragment)
+                    searchBar!!.visibility = View.VISIBLE
+                    true
+                }
+                R.id.page_4 -> {
+                    // Respond to navigation item 2 click
+                    navController.navigate(R.id.notificationsFragment)
+                    searchBar!!.visibility = View.VISIBLE
                     true
                 }
                 else -> false
             }
-
+            true
         }
 
-//        textFd.setOnClickListener {
-//            if (!drawer!!.isDrawerOpen(GravityCompat.START)){
-//                drawer!!.openDrawer(GravityCompat.START)
-//            }else{
-//                drawer!!.closeDrawer(GravityCompat.END)
-//            }
-//        }
 
         if (savedInstanceState == null) {
             navItemIndex = 0;
@@ -127,6 +186,12 @@ class MainActivity : AppCompatActivity() {
             loadHomeFragment();
         }
 
+    }
+
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.nav_host)
+        return NavigationUI.navigateUp(navController, drawer)
     }
 
     private fun loadHomeFragment() {
@@ -143,20 +208,34 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+
+        if (sharedPref.getString("username", "") != ""){
+            txtName?.text = sharedPref.getString("username", "")
+        } else {
+            txtName?.text = "Eric Martins";
+        }
+
+        if (sharedPref.getString("username", "") != ""){
+            txtWebsite?.text = sharedPref.getString("email", "")
+        } else {
+            txtWebsite?.text = "www.baseboxng.com";
+        }
+        super.onStart()
+    }
 
     @RequiresApi(Build.VERSION_CODES.S)
     fun loadNavHeader() {
-        txtName?.text = "Eric Martins";
-        txtWebsite?.text = "www.baseboxng.com";
 
         // loading header background image
-        Glide.with(this).load(urlNavHeaderBg)
-            .transition(withCrossFade())
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(imgNavHeaderBg!!)
+//        Glide.with(this).load(urlNavHeaderBg)
+//            .transition(withCrossFade())
+//            .diskCacheStrategy(DiskCacheStrategy.ALL)
+//            .into(imgNavHeaderBg!!)
 
-        // Loading profile image
-        Glide.with(this).load(urlProfileImg)
+        // Loading profile image (urlProfileImg)
+        Glide.with(this).load(R.drawable.tekmooc)
             .transition(withCrossFade())
             .thumbnail(0.5f)
             .transform(CircleTransform(this))
@@ -174,29 +253,40 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpNavigationView() {
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
-        navigationView!!.setNavigationItemSelectedListener(NavigationView.OnNavigationItemSelectedListener { menuItem ->
+        navigationView!!.setNavigationItemSelectedListener { menuItem ->
             // This method will trigger on item Click of navigation menu
             //Check to see which item was being clicked and perform appropriate action
             when (menuItem.itemId) {
-                R.id.nav_home -> {
+                R.id.homeFragment -> {
                     navItemIndex = 0
                     CURRENT_TAG = TAG_HOME
+                    navigController?.navigate(R.id.homeFragment)
+                    searchBar!!.visibility = View.VISIBLE
                 }
-                R.id.nav_profile -> {
+                R.id.profileFragment -> {
                     navItemIndex = 1
                     CURRENT_TAG = TAG_PROFILE
+                    navigController?.navigate(R.id.profileFragment)
+                    searchBar!!.visibility = View.GONE
                 }
-                R.id.nav_courses -> {
+                R.id.courseFragment -> {
                     navItemIndex = 2
                     CURRENT_TAG = TAG_COURSES
+                    navigController?.navigate(R.id.courseFragment)
+                    searchBar!!.visibility = View.VISIBLE
                 }
-                R.id.nav_notifications -> {
+                R.id.notificationsFragment -> {
                     navItemIndex = 3
                     CURRENT_TAG = TAG_NOTIFICATIONS
+                    navigController?.navigate(R.id.notificationsFragment)
+                    searchBar!!.visibility = View.VISIBLE
                 }
                 R.id.nav_settings -> {
                     navItemIndex = 4
                     CURRENT_TAG = TAG_SETTINGS
+                    searchBar!!.visibility = View.GONE
+                    navigController?.navigate(R.id.settingsFragment)
+
                 }
 
                 else -> navItemIndex = 0
@@ -207,7 +297,7 @@ class MainActivity : AppCompatActivity() {
             menuItem.isChecked = true
             loadHomeFragment()
             true
-        })
+        }
         val actionBarDrawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
             this,
             drawer,
@@ -259,7 +349,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-
+        if (navItemIndex == 1) {
+            menuInflater.inflate(R.menu.main_menu, menu)
+        }
         // when fragment is notifications, load the menu created for notifications
         if (navItemIndex == 3) {
             menuInflater.inflate(R.menu.notifications, menu)
@@ -272,10 +364,12 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         val id: Int = item.getItemId()
-//        if (id == R.id.action_logout) {
-//            Toast.makeText(applicationContext, "Logout user!", Toast.LENGTH_LONG).show()
-//            return true
-//        }
+        if (id == R.id.action_signout) {
+            auth.signOut()
+            Toast.makeText(applicationContext, "User Signed out!", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, SignInActivity::class.java))
+            return true
+        }
 
         // user is in notifications fragment
         // and selected 'Mark all as Read'
@@ -293,5 +387,23 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "Clear all notifications!", Toast.LENGTH_LONG).show()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSearchStateChanged(enabled: Boolean) {
+        val s = if (enabled) "enabled" else "disabled"
+        Toast.makeText(this@MainActivity, "Search $s", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSearchConfirmed(text: CharSequence?) {
+//        searchBar!!.showSuggestionsList()
+    }
+
+    override fun onButtonClicked(buttonCode: Int) {
+        when (buttonCode) {
+            MaterialSearchBar.BUTTON_NAVIGATION -> drawer!!.openDrawer(GravityCompat.START)
+            MaterialSearchBar.BUTTON_SPEECH -> {
+            }
+            MaterialSearchBar.BUTTON_BACK -> searchBar!!.closeSearch()
+        }
     }
 }

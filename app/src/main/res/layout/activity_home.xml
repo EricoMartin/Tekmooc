@@ -7,83 +7,92 @@
     android:background="@color/teal"
     tools:context=".ui.onboarding.HomeActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/register_zc_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="#FFFFFFFF"
-        android:fontFamily="@font/roboto_slab_bold"
-        android:text="@string/signup"
-        android:textAllCaps="false"
-        android:textColor="#00B87C"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_zc_btn"
-        app:layout_constraintVertical_bias="0.0"
-        app:strokeColor="#00B87C"
-        app:strokeWidth="1dp"
-        tools:ignore="TextContrastCheck" />
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="254dp"
-        android:layout_height="230dp"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="53dp"
-        android:contentDescription="@string/welcome_image"
-        android:src="@drawable/icons8_education_64_1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/welcome_zc_txtview"
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:fontFamily="@font/roboto_slab_bold"
-        android:text="Welcome to Tekmooc"
-        android:textAlignment="center"
-        android:textColor="@color/purple_700"
-        android:textSize="@dimen/box_text_size"
-        android:textStyle="bold"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <TextView
-        android:id="@+id/welcome_zc_descView"
-        android:layout_width="291dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/roboto_slab_bold"
-        android:text="@string/skill_up_on_programming"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_zc_txtview"
-        tools:textSize="14sp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/register_zc_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="32dp"
+            android:backgroundTint="#FFFFFFFF"
+            android:fontFamily="@font/roboto_slab_bold"
+            android:text="@string/signup"
+            android:textAllCaps="false"
+            android:textColor="#00B87C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.444"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sign_in_zc_btn"
+            app:layout_constraintVertical_bias="0.0"
+            app:strokeColor="#00B87C"
+            app:strokeWidth="1dp"
+            tools:ignore="TextContrastCheck" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/sign_in_zc_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="24dp"
-        android:fontFamily="@font/roboto_slab_bold"
-        android:text="@string/signin"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_zc_descView"
-        tools:ignore="TextContrastCheck" />
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="254dp"
+            android:layout_height="230dp"
+            android:layout_marginStart="53dp"
+            android:layout_marginTop="72dp"
+            android:layout_marginEnd="53dp"
+            android:contentDescription="@string/welcome_image"
+            android:src="@drawable/icons8_education_64_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/welcome_zc_txtview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:fontFamily="@font/roboto_slab_bold"
+            android:text="Welcome to Tekmooc"
+            android:textAlignment="center"
+            android:textColor="@color/purple_700"
+            android:textSize="@dimen/box_text_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+        <TextView
+            android:id="@+id/welcome_zc_descView"
+            android:layout_width="291dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto_slab_bold"
+            android:text="@string/skill_up_on_programming"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_zc_txtview"
+            tools:textSize="14sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sign_in_zc_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="24dp"
+            android:backgroundTint="@color/purple_700"
+            android:fontFamily="@font/roboto_slab_bold"
+            android:text="@string/signin"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_zc_descView"
+            tools:ignore="TextContrastCheck" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

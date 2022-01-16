@@ -13,8 +13,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        var materialButton1 = findViewById<MaterialButton>(R.id.sign_in_zc_btn)
-        var materialButton2 = findViewById<MaterialButton>(R.id.register_zc_btn)
+        val materialButton1 = findViewById<MaterialButton>(R.id.sign_in_zc_btn)
+        val materialButton2 = findViewById<MaterialButton>(R.id.register_zc_btn)
 
         materialButton1.setOnClickListener {
             startActivity(Intent(this, SignInActivity::class.java))

@@ -2,21 +2,19 @@ package com.example.tekmooc.ui.onboarding
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tekmooc.R
-import com.example.tekmooc.ui.MainActivity
 import com.example.tekmooc.ui.onboarding.adapter.WelcomeAdapter
 import com.example.tekmooc.ui.onboarding.model.OnBoardingItem
 import com.google.android.material.button.MaterialButton
-import java.util.ArrayList
+import java.util.*
 
 class WelcomeActivity : AppCompatActivity() {
 
@@ -27,7 +25,6 @@ class WelcomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
         setContentView(R.layout.activity_welcome)
 
         layoutOnboardingIndicator = findViewById(R.id.layoutOnboardingIndicators)
@@ -83,14 +80,14 @@ class WelcomeActivity : AppCompatActivity() {
                 imageView.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
-                        R.drawable.ic_baseline_trending_flat_24
+                        R.drawable.ic_baseline_label_24
                     )
                 )
             } else {
                 imageView.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
-                        R.drawable.ic_baseline_indicator
+                        R.drawable.ic_baseline_label_important_24
                     )
                 )
             }
@@ -112,12 +109,12 @@ class WelcomeActivity : AppCompatActivity() {
         val itemPaidOffline = OnBoardingItem(
             R.drawable.icons8_education_64_3,
             "The Digital world has brought education to your palm",
-            "Enjoy your free and paid courses, all in one app. Don’t forget to rate us!"
+            "Enjoy your free courses. Don’t forget to rate us!"
         )
         val itemGetJob = OnBoardingItem(
             R.drawable.icons8_education_64,
             "No College/ University Degree, No problem",
-            "Just keep learning offline or online, and become a freelancer or get a Job!"
+            "Just keep learning offline or online, to become a freelancer or get a Job!"
         )
         onBoardingItems.add(itemStudy)
         onBoardingItems.add(itemPaidOffline)

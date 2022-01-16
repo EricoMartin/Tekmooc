@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="nav_header_height">124dp</dimen>
+    <dimen name="nav_header_height">148dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="profile_width">90dp</dimen>
     <dimen name="profile_height">90dp</dimen>

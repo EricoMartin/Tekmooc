@@ -61,4 +61,16 @@
     <string name="https_linkedin_com_user">https://linkedin.com/username</string>
     <string name="twitter">Twitter</string>
     <string name="https_twitter_com_danieltrejo">https://twitter.com/username</string>
+    <string name="signout_">Signout</string>
+    <string name="erico_martin">Erico Martin</string>
+    <string name="address">Abuja, Nigeria</string>
+    <string name="_10">10</string>
+    <string name="started">Courses Started</string>
+    <string name="_3">3</string>
+    <string name="completed">Courses Completed</string>
+    <string name="no_courses_yet">No Courses Started</string>
+    <string name="course_completed_level">20% Completed</string>
+    <string name="_free">Free</string>
+    <string name="_java_programming">Intro to Java Prgramming</string>
+    <string name="address_">Address</string>
 </resources>
